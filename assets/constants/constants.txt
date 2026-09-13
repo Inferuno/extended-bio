@@ -1,1 +1,0 @@
-This file contains constant images that will never change (or rarely), like my pfp. (And other buttons that may be added, such as a dark/light mode art.)
