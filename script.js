@@ -1,6 +1,10 @@
 const sections = [...document.querySelectorAll("section")];
 const links = [...document.querySelectorAll(".nav a")];
 const modeBtn = document.querySelector("#mode");
+const scrim = document.querySelector("#scrim");
+const sheet = document.querySelector("#sheet");
+const cards = [...document.querySelectorAll(".card")];
+const closeBtn = document.querySelector("#s-close");
 
 // -------------- Nav Pill -------------- //
 const thumb = document.querySelector(".nav-thumb");
@@ -111,3 +115,50 @@ links.forEach((link) => {
     });
 });
 
+
+
+// -------------- Project Card -------------- //
+function openSheet(card) {
+    const openBtn = document.querySelector("#s-open");
+    if (card.dataset.url) {
+        openBtn.href = card.dataset.url;
+        openBtn.textContent = card.dataset.label;
+        openBtn.hidden = false;
+    } else {
+        openBtn.hidden = true;
+    }
+
+    document.querySelector("#s-title").textContent = card.querySelector("h3").textContent;
+    document.querySelector("#s-meta").textContent = card.querySelector(".sub").textContent;
+    document.querySelector("#s-blurb").textContent = card.querySelector(".blurb").textContent;
+
+    sheet.removeAttribute("hidden");
+    scrim.removeAttribute("hidden");
+    document.body.classList.add("is-locked");
+
+    requestAnimationFrame(() => {
+        sheet.classList.add("on");
+        scrim.classList.add("on");
+    })
+}
+
+function closeSheet() {
+    sheet.classList.remove("on");
+    scrim.classList.remove("on");
+    document.body.classList.remove("is-locked");
+
+    setTimeout(() => {
+        sheet.setAttribute("hidden", "");
+        scrim.setAttribute("hidden", "");
+    }, 520);
+}
+
+cards.forEach((card) => {
+    card.addEventListener("click", () => openSheet(card));
+});
+
+closeBtn.addEventListener("click", closeSheet);
+scrim.addEventListener("click", closeSheet);
+addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSheet();
+})

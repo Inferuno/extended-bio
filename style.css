@@ -1,196 +1,386 @@
-    /* -------------- Tokens -------------- */
-    @property --h {
-        syntax: '<number>';
-        inherits: true;
-        initial-value: 20;
-    }
-
-    html[data-mode="dark"] {
-
-        /* Surfaces */
-        --surface: oklch(0.165 0.024 var(--h));
-        --surface-c: oklch(0.205 0.026 var(--h));
-        --surface-high: oklch(0.278 0.030 var(--h));
-
-        /* Text */
-        --on-surface: oklch(0.935 0.018 var(--h));
-        --on-surface-var: oklch(0.780 0.030 var(--h));
-        /* Freezes the hue. Animating this flickers in Chrome */
-        --on-surface-fixed: oklch(0.935 0.020 20);
-
-        /* Accent */
-        --primary: oklch(0.820 0.100 var(--h));
-        --on-primary: oklch(0.285 0.070 var(--h));
-        --p-container: oklch(0.415 0.085 var(--h));
-
-        /* Lines */
-        --outline: oklch(0.520 0.028 var(--h))
-    }
-
-    html[data-mode="light"] {
-        --surface: oklch(0.968 0.014 var(--h));
-        --surface-c: oklch(0.945 0.020 var(--h));
-        --surface-high: oklch(0.898 0.030 var(--h));
-
-        --on-surface: oklch(0.245 0.030 var(--h));
-        --on-surface-var: oklch(0.430 0.038 var(--h));
-        --on-surface-fixed: oklch(0.245 0.030 20);
-
-        --primary: oklch(0.505 0.125 var(--h));
-        --on-primary: oklch(0.995 0.010 var(--h));
-        --p-container: oklch(0.880 0.070 var(--h));
-
-        --outline: oklch(0.600 0.032 var(--h));
-    }
-
-    :root {
-        --h: 20;
-
-        /* Extra */
-        --spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%,
-                1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%,
-                1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%,
-                .98 57.1%, .997 69.8%, 1.003 76.9%, 1);
-        /* Ye this is ai but cmon (I'll use a spring gen next time) */
-
-        --t-theme: 0ms;
-        --t-hue: 0ms;
-        --t-nav-pill: 0ms;
-
-        /* Radius */
-        --r-full: 999px;
-        --r-xs: 10px;
-    }
-
-    /* -------------- Base -------------- */
-    html {
-        scroll-behavior: smooth;
-
-        /* Required for the entire color system, changes the color by `--h` (hue) at `--t-hue` (780ms, changable below in html.ready). */
-        /* Uses the @property registered --h to work. */
-        transition: --h var(--t-hue) ease;
-    }
-
-    html.ready {
-        --t-hue: 780ms;
-        --t-nav-pill: 320ms;
-    }
-
-    body {
-        background-color: var(--surface);
-        color: var(--on-surface);
-        -webkit-font-smoothing: antialiased;
-        transition: background-color var(--t-theme) ease, color var(--t-theme) ease;
-    }
-
-    html.theming {
-        --t-theme: 420ms;
-    }
-
-    .material-symbols-rounded {
-        font-family: 'Material Symbols Rounded';
-        font-weight: 300;
-        font-style: normal;
-        font-size: inherit;
-        line-height: 1;
-        letter-spacing: normal;
-        text-transform: none;
-        display: inline-block;
-        white-space: nowrap;
-        direction: ltr;
-        -webkit-font-feature-settings: 'liga';
-        font-feature-settings: 'liga';
-    }
-
-    section {
-        min-height: 100vh;
-        padding: 80px 24px;
-        /* This is the nav bar height. */
-        scroll-margin-top: 70px;
-    }
-
-    /* -------------- Top Bar -------------- */
-    .bar {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        display: flex;
-        justify-content: center;
-        padding: 12px 22px;
-    }
-
-    .island {
-        background: color-mix(in oklab, var(--surface-c) 72%, transparent);
-        backdrop-filter: blur(26px) saturate(1.6);
-        border-radius: var(--r-full);
-        padding: 6px;
-    }
-
-    /* -------------- Navigation -------------- */
-    .nav {
-        /* Makes .nav the reference point for the .nav-thumb's `position: absolute`. */
-        position: relative;
-        display: flex;
-    }
-
-    .nav a {
-        padding: 8px 16px;
-        border-radius: var(--r-full);
-        position: relative;
-        z-index: 1;
-        color: var(--on-surface-fixed);
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        white-space: nowrap;
-    }
-
-    .nav-thumb {
-        position: absolute;
-        inset-block: 0px;
-        left: 0;
-        z-index: 0;
-        border-radius: var(--r-full);
-        background: var(--p-container);
-        transition: transform var(--t-nav-pill) var(--spring), width var(--t-nav-pill) var(--spring);
-    }
+/* -------------- Tokens -------------- */
+@property --h {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 20;
+}
 
 
-    /* -------------- Dark Mode / Music -------------- */
-    .icon-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--r-full);
-        border: 0;
-        color: var(--on-surface);
-        cursor: pointer;
-        font-size: 24px;
-        background: color-mix(in oklab, var(--surface-high) 40%, transparent);
-        display: grid;
-        place-items: center;
+/* NAMING SCHEME:
 
-        touch-action: manipulation;
-        -webkit-touch-callout: none;
-    }
+        -container: things that sit on the page (like the island)
+        -high: container high, things sitting on top of containers (ligher)
+        -var: variable, changes
+        -fixed: constant
 
-    .icon-btn span {
-        -webkit-user-select: none;
-        user-select: none;
-    }
+        -on: text or icons sitting on top of that surface
 
-    .controls {
-        position: absolute;
-        top: 18px;
-        right: 22px;
-        display: flex;
-        gap: 6px;
-    }
+        -r: radius
+        -t: time (timers)
 
-    .icon-btn:hover {
-        background: var(--surface-high);
-    }
+        -xs, -sm, -md, -lg, -xl: taken from clothing sizes (naming)
+        -full: as round as possible
 
-    .icon-btn:active {
-        transform: scale(0.88);
-        border-radius: var(--r-xs);
-    }
+    */
+html[data-mode="dark"] {
+
+    /* Surfaces */
+    --surface: oklch(0.165 0.024 var(--h));
+    --surface-container: oklch(0.205 0.026 var(--h));
+    --surface-high: oklch(0.278 0.030 var(--h));
+
+    /* Text */
+    --on-surface: oklch(0.935 0.018 var(--h));
+    --on-surface-var: oklch(0.780 0.030 var(--h));
+    /* Freezes the hue. Animating this flickers in Chrome */
+    --on-surface-fixed: oklch(0.935 0.020 20);
+
+    /* Accent */
+    --primary: oklch(0.820 0.100 var(--h));
+    --on-primary: oklch(0.285 0.070 var(--h));
+    --primary-container: oklch(0.415 0.085 var(--h));
+
+    /* Lines */
+    --outline: oklch(0.520 0.028 var(--h));
+}
+
+html[data-mode="light"] {
+    --surface: oklch(0.968 0.014 var(--h));
+    --surface-container: oklch(0.945 0.020 var(--h));
+    --surface-high: oklch(0.898 0.030 var(--h));
+
+    --on-surface: oklch(0.245 0.030 var(--h));
+    --on-surface-var: oklch(0.430 0.038 var(--h));
+    --on-surface-fixed: oklch(0.245 0.030 20);
+
+    --primary: oklch(0.505 0.125 var(--h));
+    --on-primary: oklch(0.995 0.010 var(--h));
+    --primary-container: oklch(0.880 0.070 var(--h));
+
+    --outline: oklch(0.600 0.032 var(--h));
+}
+
+:root {
+    --h: 20;
+
+    /* Extra */
+    --spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%,
+            1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%,
+            1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%,
+            .98 57.1%, .997 69.8%, 1.003 76.9%, 1);
+
+    --t-theme: 0ms;
+    --t-hue: 0ms;
+    --t-nav-pill: 0ms;
+
+    /* Radius */
+    --r-xs: 10px;
+    --r-sm: 16px;
+    --r-md: 22px;
+    --r-lg: 28px;
+    --r-xl: 36px;
+    --r-full: 999px;
+}
+
+/* -------------- Base -------------- */
+/* Borders and padding add to an element's size unless width means the outer
+   box. Keeps 36px meaning 36px whatever else is on the element. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+
+    /* Required for the entire color system, changes the color by `--h` (hue) at `--t-hue` (780ms, changable below in html.ready). */
+    /* Uses the @property registered --h to work. */
+    transition: --h var(--t-hue) ease;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--outline) transparent;
+}
+
+html.ready {
+    --t-hue: 780ms;
+    --t-nav-pill: 320ms;
+}
+
+body {
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--t-theme) ease, color var(--t-theme) ease;
+}
+
+html.theming {
+    --t-theme: 420ms;
+}
+
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded';
+    font-weight: 300;
+    font-style: normal;
+    font-size: inherit;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+}
+
+section {
+    min-height: 100vh;
+    padding: 80px 24px;
+    /* This is the nav bar height. */
+    scroll-margin-top: 70px;
+}
+
+/* -------------- Top Bar -------------- */
+.bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 12px 22px;
+}
+
+.island {
+    background: color-mix(in oklab, var(--surface-container) 72%, transparent);
+    backdrop-filter: blur(26px) saturate(1.6);
+    border-radius: var(--r-full);
+    padding: 6px;
+}
+
+/* -------------- Navigation -------------- */
+.nav {
+    /* Makes .nav the reference point for the .nav-thumb's `position: absolute`. */
+    position: relative;
+    display: flex;
+}
+
+.nav a {
+    padding: 8px 16px;
+    border-radius: var(--r-full);
+    position: relative;
+    z-index: 1;
+    color: var(--on-surface-fixed);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.nav-thumb {
+    position: absolute;
+    inset-block: 0px;
+    left: 0;
+    z-index: 0;
+    border-radius: var(--r-full);
+    background: var(--primary-container);
+    transition: transform var(--t-nav-pill) var(--spring), width var(--t-nav-pill) var(--spring);
+}
+
+
+/* -------------- Dark Mode / Music -------------- */
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r-full);
+    border: 0;
+    color: var(--on-surface);
+    cursor: pointer;
+    font-size: 24px;
+    background: color-mix(in oklab, var(--surface-high) 40%, transparent);
+    display: grid;
+    place-items: center;
+
+    transition: background 180ms ease;
+
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+}
+
+.icon-btn span {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.controls {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    display: flex;
+    gap: 6px;
+}
+
+.icon-btn:hover {
+    background: var(--surface-high);
+}
+
+.icon-btn:active {
+    transform: scale(0.88);
+    border-radius: var(--r-xs);
+}
+
+/* -------------- Project (grid) -------------- */
+.card {
+    background: var(--surface-container);
+    border: 0;
+    padding: 11px;
+    border-radius: var(--r-lg);
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+
+    transition: transform 320ms var(--spring);
+    font: inherit;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card:active {
+    transform: translateY(-5px) scale(0.975);
+}
+
+.card h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 16px 0 4px;
+}
+
+.card .sub {
+    font-size: 0.8rem;
+    color: var(--on-surface-var);
+}
+
+.card .blurb {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--on-surface-var);
+    margin: 12px 0 5px;
+}
+
+.thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--surface-high);
+    border-radius: var(--r-md);
+}
+
+.grid {
+    align-items: start;
+    display: grid;
+    gap: 12px;
+    /* `290px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it). */
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+.shell {
+    max-width: 1080px;
+    margin: 0;
+    padding: 0 22px;
+}
+
+.scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: oklch(0.1 0.015 var(--h) / 0.62);
+    backdrop-filter: blur(7px);
+
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.scrim.on {
+    opacity: 1;
+}
+
+.sheet {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 100;
+
+    width: min(540px, calc(100vw - 32px));
+    max-height: 84vh;
+    overflow: auto;
+
+    padding: 11px;
+    border-radius: var(--r-xl);
+    background: var(--surface-container);
+
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 1000px)) scale(0.9);
+    transition: transform 520ms var(--spring), opacity 320ms ease;
+}
+
+.sheet.on {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.sheet .icon-btn {
+    background: color-mix(in oklab, var(--surface) 60%, transparent);
+
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 2;
+}
+
+.sheet .icon-btn:hover {
+    background: color-mix(in oklab, var(--surface) 80%, transparent);
+}
+
+.sheet .icon-btn:active {
+    border-radius: var(--r-full);
+}
+
+body.is-locked {
+    overflow: hidden;
+}
+
+.s-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.s-head h2 {
+    margin-right: auto;
+}
+
+.s-head .btn {
+    padding: 11px 21px;
+    border-radius: var(--r-full);
+    text-decoration: none;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+}
+
+.s-head .btn:active {
+    transform: scale(0.94);
+}
+
+.s-head .btn[hidden] {
+    display: none;
+}

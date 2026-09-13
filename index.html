@@ -7,6 +7,7 @@
     <title>Inferuno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300,0..1,0&display=swap"
         rel="stylesheet">
@@ -31,18 +32,41 @@
             </button>
         </div>
     </header>
-    <main>
+    <main class="shell">
         <!-- Each hue is for the color shift. -->
         <section id="about" data-hue="20">
             <h1>Inferuno</h1>
         </section>
         <section id="projects" data-hue="150">
             <h2>Projects</h2>
+            <div class="grid">
+                <button class="card" type="button" data-url="https://github.com/Inferuno/portfolio" data-label="Source">
+                    <span class="thumb"></span>
+                    <h3>Extended Bio</h3>
+                    <div class="sub">JS, CSS, HTML</div>
+                    <p class="blurb">An extended bio I can use to share projects and an about me without limitations.
+                    </p>
+                </button>
+            </div>
         </section>
         <section id="board" data-hue="260">
             <h2>Board</h2>
         </section>
     </main>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-title" hidden>
+        <button class="icon-btn" type="button" id="s-close" aria-label="Close">
+            <span class="material-symbols-rounded">close</span>
+        </button>
+        <span class="thumb"></span>
+        <div class="s-head">
+            <h2 id="s-title"></h2>
+            <a class="btn" id="s-open" href="#" target="_blank"></a>
+        </div>
+        <div id="s-meta"></div>
+        <p id="s-blurb"></p>
+    </div>
     <script src="script.js"></script>
 </body>
 
