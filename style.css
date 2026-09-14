@@ -82,6 +82,7 @@ html[data-mode="light"] {
     --r-full: 999px;
 }
 
+
 /* -------------- Base -------------- */
 /* Borders and padding add to an element's size unless width means the outer
    box. Keeps 36px meaning 36px whatever else is on the element. */
@@ -99,7 +100,7 @@ html {
     transition: --h var(--t-hue) ease;
 
     scrollbar-width: thin;
-    scrollbar-color: var(--outline) transparent;
+    scrollbar-color: var(--outline) var(--primary);
 }
 
 html.ready {
@@ -107,7 +108,18 @@ html.ready {
     --t-nav-pill: 320ms;
 }
 
+html.theming {
+    --t-theme: 420ms;
+}
+
+html.theming * {
+    transition: background-color var(--t-theme) ease,
+        color var(--t-theme) ease,
+        border-color var(--t-theme) ease;
+}
+
 body {
+    margin: 0;
     font-family: Inter, system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     background-color: var(--surface);
@@ -116,8 +128,30 @@ body {
     transition: background-color var(--t-theme) ease, color var(--t-theme) ease;
 }
 
-html.theming {
-    --t-theme: 420ms;
+body.is-locked {
+    overflow: hidden;
+}
+
+section {
+    min-height: 80vh;
+    padding: 100px 24px;
+    /* This is the nav bar height. */
+    scroll-margin-top: 70px;
+}
+
+
+/* -------------- Typography -------------- */
+h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+h2 {
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
 }
 
 .material-symbols-rounded {
@@ -135,12 +169,22 @@ html.theming {
     font-feature-settings: 'liga';
 }
 
-section {
-    min-height: 100vh;
-    padding: 80px 24px;
-    /* This is the nav bar height. */
-    scroll-margin-top: 70px;
+
+/* -------------- Layout -------------- */
+.shell {
+    max-width: 1080px;
+    margin: 0;
+    padding: 0 22px;
 }
+
+.grid {
+    align-items: start;
+    display: grid;
+    gap: 12px;
+    /* `290px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it). */
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
 
 /* -------------- Top Bar -------------- */
 .bar {
@@ -158,6 +202,15 @@ section {
     border-radius: var(--r-full);
     padding: 6px;
 }
+
+.controls {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    display: flex;
+    gap: 6px;
+}
+
 
 /* -------------- Navigation -------------- */
 .nav {
@@ -189,7 +242,7 @@ section {
 }
 
 
-/* -------------- Dark Mode / Music -------------- */
+/* -------------- Buttons -------------- */
 .icon-btn {
     width: 36px;
     height: 36px;
@@ -213,14 +266,6 @@ section {
     user-select: none;
 }
 
-.controls {
-    position: absolute;
-    top: 18px;
-    right: 22px;
-    display: flex;
-    gap: 6px;
-}
-
 .icon-btn:hover {
     background: var(--surface-high);
 }
@@ -230,7 +275,112 @@ section {
     border-radius: var(--r-xs);
 }
 
-/* -------------- Project (grid) -------------- */
+.btn {
+    padding: 11px 21px;
+    border-radius: var(--r-full);
+    text-decoration: none;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn:active {
+    transform: scale(0.94);
+}
+
+.btn[hidden] {
+    display: none;
+}
+
+
+/* -------------- About -------------- */
+
+
+#about {
+    min-height: 300px;
+    padding: 50px;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    /* Pulls up past the section's 80px padding and the ~72px bar. */
+    margin-top: calc(-80px - 72px);
+    height: 600px;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Which slice of the photo survives the crop. Higher = more of the
+       bottom. */
+    object-position: center 70%;
+    display: block;
+}
+
+.identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 22px;
+    /* How far the avatar rides up onto the banner. */
+    margin-top: -110px;
+
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.identity h1 {
+    margin: 18px 0 0;
+}
+
+.avatar {
+    width: 300px;
+    height: 300px;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: var(--r-full);
+    border: 6px solid var(--primary);
+    background: white;
+}
+
+.avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.3) translateY(13.5%);
+}
+
+.handle {
+    margin: 4px 0 0;
+    color: var(--on-surface-var);
+    font-size: 0.95rem;
+}
+
+.bio {
+    margin: 14px 0 0;
+    max-width: 77ch;
+    color: var(--on-surface-var);
+    white-space: pre-line;
+
+    background: var(--surface-container);
+    border-radius: var(--r-lg);
+    padding: 20px 28px;
+}
+
+
+/* -------------- Cards -------------- */
 .card {
     background: var(--surface-container);
     border: 0;
@@ -278,20 +428,8 @@ section {
     border-radius: var(--r-md);
 }
 
-.grid {
-    align-items: start;
-    display: grid;
-    gap: 12px;
-    /* `290px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it). */
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-}
 
-.shell {
-    max-width: 1080px;
-    margin: 0;
-    padding: 0 22px;
-}
-
+/* -------------- Detail Sheet -------------- */
 .scrim {
     position: fixed;
     inset: 0;
@@ -350,8 +488,23 @@ section {
     border-radius: var(--r-full);
 }
 
-body.is-locked {
-    overflow: hidden;
+.sheet h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 0.7;
+}
+
+.sheet #s-meta {
+    font-size: 0.85rem;
+    color: var(--on-surface-var);
+}
+
+.sheet #s-blurb {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--on-surface-var);
+    margin: 10px 0 4px;
 }
 
 .s-head {
@@ -362,25 +515,4 @@ body.is-locked {
 
 .s-head h2 {
     margin-right: auto;
-}
-
-.s-head .btn {
-    padding: 11px 21px;
-    border-radius: var(--r-full);
-    text-decoration: none;
-    background: var(--primary);
-    color: var(--on-primary);
-    font-size: 16px;
-    font-weight: 500;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-}
-
-.s-head .btn:active {
-    transform: scale(0.94);
-}
-
-.s-head .btn[hidden] {
-    display: none;
 }

@@ -17,4 +17,3 @@ Naming: match the project, lowercase, hyphens for spaces.
 
 Prefer .webp. Smaller than .png or .jpg at the same quality, and every
 browser that matters supports it.
---------------
