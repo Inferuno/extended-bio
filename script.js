@@ -1,10 +1,21 @@
+// NAV PILL:
 const sections = [...document.querySelectorAll("section")];
 const links = [...document.querySelectorAll(".nav a")];
+
+// THEME:
 const modeBtn = document.querySelector("#mode");
+
+// PROJECT CARD:
+const cards = [...document.querySelectorAll(".card")];
 const scrim = document.querySelector("#scrim");
 const sheet = document.querySelector("#sheet");
-const cards = [...document.querySelectorAll(".card")];
 const closeBtn = document.querySelector("#s-close");
+
+// BOARD:
+const wuwaWidget = document.querySelector("#widget-wuwa");
+const statsBox = wuwaWidget.querySelector(".stats");
+const notesBox = wuwaWidget.querySelector(".notes");
+const profileBox = wuwaWidget.querySelector(".profile");
 
 // -------------- Nav Pill -------------- //
 const thumb = document.querySelector(".nav-thumb");
@@ -162,3 +173,56 @@ scrim.addEventListener("click", closeSheet);
 addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeSheet();
 })
+
+
+// -------------- Board -------------- //
+
+fetch("assets/data/board/wuwa.json")
+    .then(r => r.json())
+    .then(data => {
+        wuwaWidget.querySelector("h3").textContent = data.title;
+        statsBox.textContent = "";
+        notesBox.textContent = "";
+        profileBox.textContent = "";
+
+        data.stats.forEach(stat => {
+            const statEl = document.createElement("div");
+            statEl.className = "stat";
+
+            const value = document.createElement("div");
+            value.className = "stat-value";
+            value.textContent = stat.value;
+
+            const label = document.createElement("div");
+            label.className = "stat-label";
+            label.textContent = stat.label;
+
+            statEl.appendChild(value);
+            statEl.appendChild(label);
+            statsBox.appendChild(statEl);
+        });
+
+        data.notes.forEach(note => {
+            const noteEl = document.createElement("div");
+            noteEl.className = "note";
+            noteEl.textContent = note;
+
+            notesBox.appendChild(noteEl);
+        });
+        data.profile.forEach(detail => {
+            const detailEl = document.createElement("div");
+            detailEl.className = "detail";
+
+            const label = document.createElement("div");
+            label.className = "detail-label";
+            label.textContent = detail.label + ":";
+
+            const value = document.createElement("div");
+            value.className = "detail-value";
+            value.textContent = detail.value;
+
+            detailEl.appendChild(label);
+            detailEl.appendChild(value);
+            profileBox.appendChild(detailEl);
+        })
+    });

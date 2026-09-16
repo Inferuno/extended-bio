@@ -44,9 +44,9 @@ html[data-mode="dark"] {
     --outline: oklch(0.520 0.028 var(--h));
 
     /* Gradient bg */
-    --wall-1: oklch(0.30 0.10 var(--h));
-    --wall-2: oklch(0.22 0.07 calc(var(--h) + 55));
-    --wall-3: oklch(0.13 0.03 var(--h));
+    --bg-gradient-1: oklch(0.30 0.10 var(--h));
+    --bg-gradient-2: oklch(0.22 0.07 calc(var(--h) + 55));
+    --bg-gradient-3: oklch(0.13 0.03 var(--h));
 }
 
 html[data-mode="light"] {
@@ -64,9 +64,9 @@ html[data-mode="light"] {
 
     --outline: oklch(0.600 0.032 var(--h));
 
-    --wall-1: oklch(0.90 0.09 var(--h));
-    --wall-2: oklch(0.93 0.07 calc(var(--h) + 55));
-    --wall-3: oklch(0.97 0.03 var(--h));
+    --bg-gradient-1: oklch(0.90 0.09 var(--h));
+    --bg-gradient-2: oklch(0.93 0.07 calc(var(--h) + 55));
+    --bg-gradient-3: oklch(0.97 0.03 var(--h));
 }
 
 :root {
@@ -196,15 +196,15 @@ h2 {
 
 /* -------------- Gradient Bg -------------- */
 
-.wall {
+.bg-gradient {
     z-index: -1;
     position: fixed;
     inset: -20%;
     background:
-        radial-gradient(90% 80% at 10% 0%, var(--wall-1) 0%, transparent 70%),
-        radial-gradient(80% 90% at 95% 25%, var(--wall-2) 0%, transparent 72%),
-        radial-gradient(140% 110% at 50% 100%, var(--wall-1) 0%, transparent 85%),
-        var(--wall-3);
+        radial-gradient(90% 80% at 10% 0%, var(--bg-gradient-1) 0%, transparent 70%),
+        radial-gradient(80% 90% at 95% 25%, var(--bg-gradient-2) 0%, transparent 72%),
+        radial-gradient(140% 110% at 50% 100%, var(--bg-gradient-1) 0%, transparent 85%),
+        var(--bg-gradient-3);
     filter: blur(100px)
 }
 
@@ -323,8 +323,8 @@ h2 {
 /* -------------- About -------------- */
 
 
-#about {
-    min-height: 300px;
+#top {
+    min-height: 500px;
     padding: 50px;
 }
 
@@ -538,4 +538,82 @@ h2 {
 
 .s-head h2 {
     margin-right: auto;
+}
+
+/* -------------- Board -------------- */
+
+.board {
+    align-items: start;
+    display: grid;
+    gap: 12px;
+    /* `380px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it). */
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+}
+
+.widget {
+    background: var(--surface-container);
+    border-radius: var(--r-lg);
+    padding: 24px;
+}
+
+.widget h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+
+}
+
+.stats {
+    margin-top: 10px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--outline) 25%, transparent);
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.stat:last-child {
+    border-bottom: 0;
+}
+
+.notes {
+    margin-top: 10px;
+}
+
+.profile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid color-mix(in oklab, var(--outline) 25%, transparent);
+    color: var(--on-surface-var);
+    font-size: 13.5px;
+}
+
+.detail {
+    display: flex;
+    gap: 4px;
+}
+
+.detail-value {
+    color: var(--on-surface);
+    font-weight: 500;
+}
+
+.detail:not(:last-child)::after {
+    content: "|";
+    margin-left: 14px;
+    opacity: 0.5;
+    font-weight: 600;
 }
