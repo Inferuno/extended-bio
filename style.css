@@ -135,6 +135,7 @@ body {
     color: var(--on-surface);
     -webkit-font-smoothing: antialiased;
     transition: background-color var(--t-theme) ease, color var(--t-theme) ease;
+    overflow-x: clip;
 }
 
 body.is-locked {
@@ -217,6 +218,8 @@ h2 {
     display: flex;
     justify-content: center;
     padding: 12px 22px;
+    gap: 10px;
+    align-items: center;
 }
 
 .island {
@@ -232,6 +235,12 @@ h2 {
     right: 22px;
     display: flex;
     gap: 6px;
+}
+
+@media (max-width: 490px) {
+    .controls {
+        position: static;
+    }
 }
 
 
@@ -282,6 +291,8 @@ h2 {
 
     touch-action: manipulation;
     -webkit-touch-callout: none;
+
+    align-items: center;
 }
 
 .icon-btn span {
@@ -546,8 +557,9 @@ h2 {
     align-items: start;
     display: grid;
     gap: 12px;
-    /* `380px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it). */
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    /* `380px` is the minimum card width, this number decides how many columns are allowed. Lowering it means more columns (Feel free to change it).
+    `min` is for windows smaller than 380px, it auto sets it to 100% of that width (+padding) so it doesn't create overflow. */
+    grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
 }
 
 .widget {
@@ -577,7 +589,7 @@ h2 {
 }
 
 .stat-value {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 400;
     line-height: 1.2;
 }
@@ -638,9 +650,6 @@ h2 {
     height: 1px;
     background: color-mix(in oklab, var(--outline) 18%, transparent);
 }
-
-
-
 
 .link:hover {
     background: var(--surface-high);
