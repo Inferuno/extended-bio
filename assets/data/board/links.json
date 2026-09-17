@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Discord",
+        "handle": "Itzinferuno",
+        "url": "https://discord.com/users/1141544275847417918",
+        "icon": "assets/brand/Discord-Symbol-Blurple.png"
+    },
+    {
+        "name": "GitHub",
+        "handle": "Inferuno",
+        "url": "https://github.com/Inferuno",
+        "icon": "assets/brand/GitHub_Invertocat_Green.svg"
+    },
+    {
+        "name": "YouTube",
+        "handle": "Icefire10062",
+        "url": "https://www.youtube.com/@Icefire10062",
+        "icon": "assets/brand/yt_icon_red_digital.png"
+    },
+    {
+        "name": "Steam",
+        "handle": "icefire100062",
+        "url": "https://steamcommunity.com/profiles/76561199814835994/",
+        "icon": "assets/brand/Steam_Logo.svg"
+    }
+]

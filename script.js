@@ -17,6 +17,9 @@ const statsBox = wuwaWidget.querySelector(".stats");
 const notesBox = wuwaWidget.querySelector(".notes");
 const profileBox = wuwaWidget.querySelector(".profile");
 
+const linksWidget = document.querySelector("#widget-links");
+const linksBox = linksWidget.querySelector(".links");
+
 // -------------- Nav Pill -------------- //
 const thumb = document.querySelector(".nav-thumb");
 
@@ -225,4 +228,39 @@ fetch("assets/data/board/wuwa.json")
             detailEl.appendChild(value);
             profileBox.appendChild(detailEl);
         })
+    });
+
+
+fetch("assets/data/board/links.json")
+    .then(r => r.json())
+    .then(data => {
+        data.forEach(link => {
+            const row = document.createElement("a");
+            row.className = "link";
+            row.href = link.url;
+            row.target = "_blank";
+
+            const icon = document.createElement("img");
+            icon.className = "link-icon";
+            icon.src = link.icon;
+            icon.alt = "";
+
+            const name = document.createElement("span");
+            name.className = "link-name";
+            name.textContent = link.name;
+
+            const handle = document.createElement("span");
+            handle.className = "link-handle";
+            handle.textContent = link.handle;
+
+            const arrow = document.createElement("span")
+            arrow.className = "material-symbols-rounded"
+            arrow.textContent = "arrow_outward"
+
+            row.appendChild(icon);
+            row.appendChild(name);
+            row.appendChild(handle);
+            row.appendChild(arrow);
+            linksBox.appendChild(row);
+        });
     });

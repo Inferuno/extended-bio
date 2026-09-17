@@ -617,3 +617,49 @@ h2 {
     opacity: 0.5;
     font-weight: 600;
 }
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 12px;
+    border-radius: var(--r-xs);
+    text-decoration: none;
+    color: var(--on-surface);
+    position: relative;
+}
+
+.link:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+    height: 1px;
+    background: color-mix(in oklab, var(--outline) 18%, transparent);
+}
+
+
+
+
+.link:hover {
+    background: var(--surface-high);
+}
+
+.link-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.link-handle {
+    margin-left: auto;
+    color: var(--on-surface-var);
+    font-size: 0.85rem;
+}
+
+.link .material-symbols-rounded {
+    font-size: 16px;
+    color: var(--on-surface-var);
+    opacity: 0.5;
+}
