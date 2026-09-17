@@ -1,4 +1,4 @@
-// NAV PILL:
+// NAV INDICATOR:
 const sections = [...document.querySelectorAll("section")];
 const links = [...document.querySelectorAll(".nav a")];
 
@@ -7,11 +7,11 @@ const modeBtn = document.querySelector("#mode");
 
 // PROJECT CARD:
 const cards = [...document.querySelectorAll(".card")];
-const scrim = document.querySelector("#scrim");
-const sheet = document.querySelector("#sheet");
-const closeBtn = document.querySelector("#s-close");
+const cardPreviewOverlay = document.querySelector("#card-preview-overlay");
+const cardPreview = document.querySelector("#card-preview");
+const closeBtn = document.querySelector("#card-preview-close");
 
-// BOARD:
+// CONTENT FETCHES:
 const wuwaWidget = document.querySelector("#widget-wuwa");
 const statsBox = wuwaWidget.querySelector(".stats");
 const notesBox = wuwaWidget.querySelector(".notes");
@@ -20,8 +20,15 @@ const profileBox = wuwaWidget.querySelector(".profile");
 const linksWidget = document.querySelector("#widget-links");
 const linksBox = linksWidget.querySelector(".links");
 
-// -------------- Nav Pill -------------- //
-const thumb = document.querySelector(".nav-thumb");
+const projectsBox = document.querySelector(".grid");
+
+const identityBox = document.querySelector(".identity");
+const identityName = identityBox.querySelector("h1");
+const identityHandle = identityBox.querySelector(".handle");
+const identityBio = identityBox.querySelector(".bio");
+
+// -------------- Nav Indicator -------------- //
+const navIndicator = document.querySelector(".nav-indicator");
 
 // The click handler places the pill, so track must leave it alone until the scroll finishes.
 let jumping = false;
@@ -32,8 +39,8 @@ let timerId;
    offsetWidth is how wide that link is on screen, offsetLeft how far it sits from .nav's left edge.
  */
 function syncNav(link) {
-    thumb.style.width = (link.offsetWidth + 12) + "px"; // `+12`, offset adjustment
-    thumb.style.transform = `translateX(${link.offsetLeft - 6}px)`; // `-6` offset adjustment
+    navIndicator.style.width = (link.offsetWidth + 12) + "px"; // `+12`, offset adjustment
+    navIndicator.style.transform = `translateX(${link.offsetLeft - 6}px)`; // `-6` offset adjustment
     // Cancels .islands 6px padding so the pill reaches the island's edges.
 }
 // -------------- Color Shift Tracking -------------- //
@@ -52,7 +59,7 @@ if (refreshedLink) {
 
 function track() {
     // Color shift happens when the new section's top passes 34% down the screen. 
-    // This is based off of the `0.34​`, feel free to change it.
+    // This is based off of the `0.34`, feel free to change it.
     const line = scrollY + innerHeight * 0.34;
     let current = sections[0];
 
@@ -131,9 +138,9 @@ links.forEach((link) => {
 
 
 
-// -------------- Project Card -------------- //
-function openSheet(card) {
-    const openBtn = document.querySelector("#s-open");
+// -------------- Project Card (Preview) -------------- //
+function openCardPreview(card) {
+    const openBtn = document.querySelector("#card-preview-open");
     if (card.dataset.url) {
         openBtn.href = card.dataset.url;
         openBtn.textContent = card.dataset.label;
@@ -142,43 +149,39 @@ function openSheet(card) {
         openBtn.hidden = true;
     }
 
-    document.querySelector("#s-title").textContent = card.querySelector("h3").textContent;
-    document.querySelector("#s-meta").textContent = card.querySelector(".sub").textContent;
-    document.querySelector("#s-blurb").textContent = card.querySelector(".blurb").textContent;
+    document.querySelector("#card-preview-title").textContent = card.querySelector("h3").textContent;
+    document.querySelector("#card-preview-stack").textContent = card.querySelector(".stack").textContent;
+    document.querySelector("#card-preview-blurb").textContent = card.querySelector(".blurb").textContent;
 
-    sheet.removeAttribute("hidden");
-    scrim.removeAttribute("hidden");
+    cardPreview.removeAttribute("hidden");
+    cardPreviewOverlay.removeAttribute("hidden");
     document.body.classList.add("is-locked");
 
     requestAnimationFrame(() => {
-        sheet.classList.add("on");
-        scrim.classList.add("on");
+        cardPreview.classList.add("on");
+        cardPreviewOverlay.classList.add("on");
     })
 }
 
-function closeSheet() {
-    sheet.classList.remove("on");
-    scrim.classList.remove("on");
+function closeCardPreview() {
+    cardPreview.classList.remove("on");
+    cardPreviewOverlay.classList.remove("on");
     document.body.classList.remove("is-locked");
 
     setTimeout(() => {
-        sheet.setAttribute("hidden", "");
-        scrim.setAttribute("hidden", "");
+        cardPreview.setAttribute("hidden", "");
+        cardPreviewOverlay.setAttribute("hidden", "");
     }, 520);
 }
 
-cards.forEach((card) => {
-    card.addEventListener("click", () => openSheet(card));
-});
-
-closeBtn.addEventListener("click", closeSheet);
-scrim.addEventListener("click", closeSheet);
+closeBtn.addEventListener("click", closeCardPreview);
+cardPreviewOverlay.addEventListener("click", closeCardPreview);
 addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeSheet();
+    if (e.key === "Escape") closeCardPreview();
 })
 
 
-// -------------- Board -------------- //
+// -------------- Content Fetches -------------- //
 
 fetch("assets/data/board/wuwa.json")
     .then(r => r.json())
@@ -263,4 +266,49 @@ fetch("assets/data/board/links.json")
             row.appendChild(arrow);
             linksBox.appendChild(row);
         });
+    });
+
+fetch("assets/data/projects/projects.json")
+    .then(r => r.json())
+    .then(data => {
+        projectsBox.textContent = "";
+        data.forEach(link => {
+
+            const card = document.createElement("button");
+            card.className = "card";
+            card.dataset.label = link.linkLabel;
+            card.dataset.url = link.linkUrl;
+            card.type = "button";
+
+            const thumbnail = document.createElement("span");
+            thumbnail.className = "card-thumbnail"
+            thumbnail.textContent = link.cardThumbnail
+
+            const title = document.createElement("h3");
+            title.textContent = link.title;
+
+            const stack = document.createElement("div");
+            stack.className = "stack";
+            stack.textContent = link.stack;
+
+            const blurb = document.createElement("p");
+            blurb.className = "blurb";
+            blurb.textContent = link.blurb;
+
+            card.appendChild(thumbnail);
+            card.appendChild(title);
+            card.appendChild(stack);
+            card.appendChild(blurb);
+            projectsBox.appendChild(card);
+
+            card.addEventListener("click", () => openCardPreview(card));
+        });
+    });
+
+fetch("assets/data/indentity/profile.json")
+    .then(r => r.json())
+    .then(data => {
+        identityName.textContent = data.name;
+        identityHandle.textContent = data.handle;
+        identityBio.textContent = data.bio;
     });

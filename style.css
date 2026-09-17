@@ -80,7 +80,7 @@ html[data-mode="light"] {
 
     --t-theme: 0ms;
     --t-hue: 0ms;
-    --t-nav-pill: 0ms;
+    --t-nav-indicator: 0ms;
 
     /* Radius */
     --r-xs: 10px;
@@ -114,7 +114,7 @@ html {
 
 html.ready {
     --t-hue: 780ms;
-    --t-nav-pill: 320ms;
+    --t-nav-indicator: 320ms;
 }
 
 html.theming {
@@ -246,7 +246,7 @@ h2 {
 
 /* -------------- Navigation -------------- */
 .nav {
-    /* Makes .nav the reference point for the .nav-thumb's `position: absolute`. */
+    /* Makes .nav the reference point for the .nav-indicator's `position: absolute`. */
     position: relative;
     display: flex;
 }
@@ -263,14 +263,14 @@ h2 {
     white-space: nowrap;
 }
 
-.nav-thumb {
+.nav-indicator {
     position: absolute;
     inset-block: 0px;
     left: 0;
     z-index: 0;
     border-radius: var(--r-full);
     background: var(--primary-container);
-    transition: transform var(--t-nav-pill) var(--spring), width var(--t-nav-pill) var(--spring);
+    transition: transform var(--t-nav-indicator) var(--spring), width var(--t-nav-indicator) var(--spring);
 }
 
 
@@ -442,7 +442,7 @@ h2 {
     margin: 16px 0 4px;
 }
 
-.card .sub {
+.card .stack {
     font-size: 0.8rem;
     color: var(--on-surface-var);
 }
@@ -454,7 +454,7 @@ h2 {
     margin: 12px 0 5px;
 }
 
-.thumb {
+.card-thumbnail {
     display: block;
     width: 100%;
     aspect-ratio: 16/10;
@@ -463,8 +463,8 @@ h2 {
 }
 
 
-/* -------------- Detail Sheet -------------- */
-.scrim {
+/* -------------- Card Preview -------------- */
+.card-preview-overlay {
     position: fixed;
     inset: 0;
     z-index: 90;
@@ -475,11 +475,11 @@ h2 {
     transition: opacity 320ms ease;
 }
 
-.scrim.on {
+.card-preview-overlay.on {
     opacity: 1;
 }
 
-.sheet {
+.card-preview {
     position: fixed;
 
     left: 50%;
@@ -500,12 +500,12 @@ h2 {
     transition: transform 520ms var(--spring), opacity 320ms ease;
 }
 
-.sheet.on {
+.card-preview.on {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
 
-.sheet .icon-btn {
+.card-preview .icon-btn {
     background: color-mix(in oklab, var(--surface) 60%, transparent);
 
     position: absolute;
@@ -514,40 +514,40 @@ h2 {
     z-index: 2;
 }
 
-.sheet .icon-btn:hover {
+.card-preview .icon-btn:hover {
     background: color-mix(in oklab, var(--surface) 80%, transparent);
 }
 
-.sheet .icon-btn:active {
+.card-preview .icon-btn:active {
     border-radius: var(--r-full);
 }
 
-.sheet h2 {
+.card-preview h2 {
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 0.7;
 }
 
-.sheet #s-meta {
+.card-preview #card-preview-stack {
     font-size: 0.85rem;
     color: var(--on-surface-var);
 }
 
-.sheet #s-blurb {
+.card-preview #card-preview-blurb {
     font-size: 0.95rem;
     line-height: 1.6;
     color: var(--on-surface-var);
     margin: 10px 0 4px;
 }
 
-.s-head {
+.card-preview-header {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.s-head h2 {
+.card-preview-header h2 {
     margin-right: auto;
 }
 

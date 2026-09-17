@@ -5,7 +5,7 @@ Images belonging to objects in the projects category.
 
 What goes here:
   - card thumbnails
-  - screenshots shown in the detail sheet
+  - screenshots shown in the projects card's image
   - a project's own logo or icon
 
 What does NOT go here:

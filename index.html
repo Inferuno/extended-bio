@@ -18,8 +18,8 @@
     <div class="bg-gradient" aria-hidden="true"></div>
     <header class="bar">
         <nav class="island nav">
-            <!-- Sliding pill for nav bar, positioned by script.js -->
-            <span class="nav-thumb"></span>
+            <!-- Sliding indicator for nav bar, positioned by script.js -->
+            <span class="nav-indicator"></span>
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="#board">Board</a>
@@ -39,12 +39,9 @@
         <div class="avatar">
             <img class="avatar-img" src="assets/brand/avatar.jpg" alt="">
         </div>
-        <h1>Inferuno</h1>
-        <p class="bio">Hello, I'm Inferuno!
-
-            Mainly play Wuwa,
-            UL 80 | NA server
-            Saving for 980 pulls</p>
+        <h1></h1>
+        <p class="handle"></p>
+        <p class="bio"></p>
     </div>
 
     <main class="shell">
@@ -55,13 +52,6 @@
         <section id="projects" data-hue="150">
             <h2>Projects</h2>
             <div class="grid">
-                <button class="card" type="button" data-url="https://github.com/Inferuno/portfolio" data-label="Source">
-                    <span class="thumb"></span>
-                    <h3>Extended Bio</h3>
-                    <div class="sub">JS, CSS, HTML</div>
-                    <p class="blurb">An extended bio I can use to share projects and an about me without limitations.
-                    </p>
-                </button>
             </div>
         </section>
 
@@ -88,19 +78,20 @@
         </section>
     </main>
 
-    <div class="scrim" id="scrim" hidden></div>
+    <div class="card-preview-overlay" id="card-preview-overlay" hidden></div>
 
-    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="s-title" hidden>
-        <button class="icon-btn" type="button" id="s-close" aria-label="Close">
+    <div class="card-preview" id="card-preview" role="dialog" aria-modal="true" aria-labelledby="card-preview-title"
+        hidden>
+        <button class="icon-btn" type="button" id="card-preview-close" aria-label="Close">
             <span class="material-symbols-rounded">close</span>
         </button>
-        <span class="thumb"></span>
-        <div class="s-head">
-            <h2 id="s-title"></h2>
-            <a class="btn" id="s-open" href="#" target="_blank"></a>
+        <span class="card-thumbnail"></span>
+        <div class="card-preview-header">
+            <h2 id="card-preview-title"></h2>
+            <a class="btn" id="card-preview-open" href="#" target="_blank"></a>
         </div>
-        <div id="s-meta"></div>
-        <p id="s-blurb"></p>
+        <div id="card-preview-stack"></div>
+        <p id="card-preview-blurb"></p>
     </div>
     <script src="script.js"></script>
 </body>

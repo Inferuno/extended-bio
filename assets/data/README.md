@@ -13,3 +13,6 @@ What does NOT go here:
   - images  ->  assets/brand/ or assets/projects/
   - anything that only appears once and never changes, those can stay in
     index.html
+    
+
+  Each subfolder is for a section here (we love organization)
