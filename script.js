@@ -26,6 +26,14 @@ const identityName = identityBox.querySelector("h1");
 const identityHandle = identityBox.querySelector(".handle");
 const identityBio = identityBox.querySelector(".bio");
 
+const credit = document.querySelector("#credit");
+
+
+// Fixes credit wording if not host project. Removing this line isn't allowed.
+if (location.hostname !== "inferuno.github.io") {
+    credit.textContent = "Original project made by Inferuno"
+}
+
 // -------------- Nav Indicator -------------- //
 const navIndicator = document.querySelector(".nav-indicator");
 

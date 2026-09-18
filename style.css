@@ -164,6 +164,13 @@ h2 {
     letter-spacing: -0.03em;
 }
 
+#credit {
+    text-align: center;
+    padding: 0 32px 22px;
+    font-size: 0.85rem;
+    color: var(--on-surface-var);
+}
+
 .material-symbols-rounded {
     font-family: 'Material Symbols Rounded';
     font-weight: 300;
