@@ -6,7 +6,6 @@ const links = [...document.querySelectorAll(".nav a")];
 const modeBtn = document.querySelector("#mode");
 
 // PROJECT CARD:
-const cards = [...document.querySelectorAll(".card")];
 const cardPreviewOverlay = document.querySelector("#card-preview-overlay");
 const cardPreview = document.querySelector("#card-preview");
 const closeBtn = document.querySelector("#card-preview-close");
@@ -68,10 +67,8 @@ function track() {
         if (s.offsetTop <= line) current = s;
     });
 
-    // Prevents `setProperty` from running every scroll event. (which would reset the hue transition constantly.)
     if (currentSection === current.id) return;
 
-    // Sets the current section if every other check passes.
     currentSection = current.id;
 
     // Changes the url to follow the current section
@@ -85,7 +82,7 @@ function track() {
             if (link.getAttribute("href") === "#" + current.id) syncNav(link);
         });
     }
-    // Changes the hue to the new current section (and runs the transition)
+
     document.documentElement.style.setProperty("--h", current.dataset.hue);
 }
 
@@ -99,7 +96,7 @@ setTimeout(() => document.documentElement.classList.add("ready"), 100);
 // -------------- Theme -------------- //
 const lastMode = localStorage.getItem("mode");
 // Restores the saved (dark / light mode) from the last refresh.
-if (lastMode) { // If getItem returns null, the below lines would break the code (if prevents this)
+if (lastMode) {
     document.documentElement.dataset.mode = lastMode;
     modeBtn.querySelector("span").textContent = lastMode === "light" ? "dark_mode" : "light_mode";
     modeBtn.setAttribute("aria-label", lastMode === "dark" ? "Switch to light mode" : "Switch to dark mode");
@@ -149,6 +146,7 @@ function openCardPreview(card) {
         openBtn.hidden = true;
     }
 
+    cardPreview.querySelector(".card-thumbnail").style.backgroundImage = card.querySelector(".card-thumbnail").style.backgroundImage;
     document.querySelector("#card-preview-title").textContent = card.querySelector("h3").textContent;
     document.querySelector("#card-preview-stack").textContent = card.querySelector(".stack").textContent;
     document.querySelector("#card-preview-blurb").textContent = card.querySelector(".blurb").textContent;
@@ -272,28 +270,28 @@ fetch("assets/data/projects/projects.json")
     .then(r => r.json())
     .then(data => {
         projectsBox.textContent = "";
-        data.forEach(link => {
+        data.forEach(project => {
 
             const card = document.createElement("button");
             card.className = "card";
-            card.dataset.label = link.linkLabel;
-            card.dataset.url = link.linkUrl;
+            card.dataset.label = project.linkLabel;
+            card.dataset.url = project.linkUrl;
             card.type = "button";
 
             const thumbnail = document.createElement("span");
-            thumbnail.className = "card-thumbnail"
-            thumbnail.textContent = link.cardThumbnail
+            thumbnail.className = "card-thumbnail";
+            if (project.cardThumbnail) thumbnail.style.backgroundImage = `url(${project.cardThumbnail})`;
 
             const title = document.createElement("h3");
-            title.textContent = link.title;
+            title.textContent = project.title;
 
             const stack = document.createElement("div");
             stack.className = "stack";
-            stack.textContent = link.stack;
+            stack.textContent = project.stack;
 
             const blurb = document.createElement("p");
             blurb.className = "blurb";
-            blurb.textContent = link.blurb;
+            blurb.textContent = project.blurb;
 
             card.appendChild(thumbnail);
             card.appendChild(title);
@@ -305,7 +303,7 @@ fetch("assets/data/projects/projects.json")
         });
     });
 
-fetch("assets/data/indentity/profile.json")
+fetch("assets/data/identity/profile.json")
     .then(r => r.json())
     .then(data => {
         identityName.textContent = data.name;

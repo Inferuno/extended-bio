@@ -460,6 +460,8 @@ h2 {
     aspect-ratio: 16/10;
     background: var(--surface-high);
     border-radius: var(--r-md);
+    background-size: cover;
+    background-position: center;
 }
 
 
