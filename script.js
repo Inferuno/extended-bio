@@ -291,6 +291,10 @@ fetch("assets/data/board/steam.json")
         title.className = "wishlist-game-title";
         title.textContent = game.title;
 
+
+        const priceRow = document.createElement("div");
+        priceRow.className = "wishlist-game-price=-row";
+
         const price = document.createElement("span");
         price.className = "wishlist-game-price";
         price.textContent = "$" + game.price.toFixed(2);
@@ -310,16 +314,17 @@ fetch("assets/data/board/steam.json")
         wishlistBox.appendChild(number);
         wishlistBox.appendChild(image);
         wishlistBox.appendChild(title);
-        wishlistBox.appendChild(sale);
-        wishlistBox.appendChild(price);
+        priceRow.appendChild(sale);
+        priceRow.appendChild(price);
+        wishlistBox.appendChild(priceRow);
         wishlistBox.appendChild(onSale);
 
         data.achievements.unlocked.forEach((achievement, index) => {
             if (achievement.rarity > 100) return;
             if (achievement.rarity <= 0) return;
 
-            const row = document.createElement("div");
-            row.className = "achievement";
+            const achievementRow = document.createElement("div");
+            achievementRow.className = "achievement";
 
             const image = document.createElement("span");
             image.className = "achievement-img";
@@ -334,14 +339,14 @@ fetch("assets/data/board/steam.json")
             rarity.textContent = achievement.rarity + "%";
 
 
-            if (index === 0 && achievement.rarity >= 5) {
-                row.classList.add("rare");
+            if (index === 0 && achievement.rarity <= 5) {
+                achievementRow.classList.add("rare");
             }
 
-            row.appendChild(image);
-            row.appendChild(name);
-            row.appendChild(rarity);
-            achievementsBox.appendChild(row);
+            achievementRow.appendChild(image);
+            achievementRow.appendChild(name);
+            achievementRow.appendChild(rarity);
+            achievementsBox.appendChild(achievementRow);
 
         });
 

@@ -5,6 +5,24 @@
     initial-value: 20;
 }
 
+@property --bg-gradient-1 {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.30 0.10 20);
+}
+
+@property --bg-gradient-2 {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.22 0.07 75);
+}
+
+@property --bg-gradient-3 {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.13 0.03 20);
+}
+
 
 /* NAMING SCHEME:
 
@@ -106,8 +124,10 @@ html {
 
     /* Required for the entire color system, changes the color by `--h` (hue) at `--t-hue` (780ms, changable below in html.ready). */
     /* Uses the @property registered --h to work. */
-    transition: --h var(--t-hue) ease;
-
+    transition: --h var(--t-hue) ease,
+        --bg-gradient-1 var(--t-theme) ease,
+        --bg-gradient-2 var(--t-theme) ease,
+        --bg-gradient-3 var(--t-theme) ease;
     scrollbar-width: thin;
     scrollbar-color: var(--outline) var(--primary);
 }
@@ -123,8 +143,37 @@ html.theming {
 
 html.theming * {
     transition: background-color var(--t-theme) ease,
-        color var(--t-theme) ease,
         border-color var(--t-theme) ease;
+}
+
+.bg-gradient {
+    transition: none;
+}
+
+#credit,
+.nav a,
+.icon-btn,
+.btn,
+.handle,
+.bio,
+.card .stack,
+.card .blurb,
+.card-preview #card-preview-stack,
+.card-preview #card-preview-blurb,
+.profile,
+.detail-value,
+.link,
+.link-handle,
+.link .material-symbols-rounded,
+.steam-panel h4,
+.wishlist-amount,
+.wishlist-amount::after,
+.wishlist-on-sale,
+.achievements-days,
+.achievement-rarity,
+.achievement.rare .achievement-name,
+.achievement.rare .achievement-rarity {
+    transition: color var(--t-theme) ease;
 }
 
 body {
@@ -190,7 +239,7 @@ h2 {
 /* -------------- Layout -------------- */
 .shell {
     max-width: 1080px;
-    margin: 0;
+    margin: 0 auto;
     padding: 0 22px;
 }
 
@@ -213,7 +262,6 @@ h2 {
         radial-gradient(80% 90% at 95% 25%, var(--bg-gradient-2) 0%, transparent 72%),
         radial-gradient(140% 110% at 50% 100%, var(--bg-gradient-1) 0%, transparent 85%),
         var(--bg-gradient-3);
-    filter: blur(100px)
 }
 
 
@@ -682,15 +730,44 @@ h2 {
     opacity: 0.5;
 }
 
+#widget-steam {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#widget-steam h3 {
+    padding: 24px 24px 0;
+    position: absolute;
+}
+
 .steam-panels {
     display: grid;
-    gap: 12px;
+    gap: 0;
     grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
 }
 
 .steam-panel {
     display: flex;
     flex-direction: column;
+    padding: 72px 20px 20px;
+}
+
+.steam-panel:first-child {
+    background: color-mix(in oklab, var(--surface-high) 60%, transparent);
+}
+
+.steam-panel:not(:last-child) {
+    border-right: 1px solid color-mix(in oklab, var(--outline) 25%, transparent);
+}
+
+.steam-panel h4 {
+    font-size: 0.8rem;
+    color: var(--on-surface-var);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+    margin-bottom: 2px;
 }
 
 .wishlist {
@@ -714,7 +791,6 @@ h2 {
     letter-spacing: -0.04em;
     font-size: 3.125rem;
     color: var(--primary);
-    transform: translateY(-12px);
 }
 
 .wishlist-amount::after {
@@ -738,8 +814,44 @@ h2 {
     font-weight: 600;
 }
 
-.wishlist-on-sale {
+.wishlist-on-sale,
+.achievements-days {
     margin-top: auto;
     font-size: 0.85rem;
     color: var(--on-surface-var);
+}
+
+.achievement {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 2px 12px;
+}
+
+.achievement-img {
+    grid-row: span 2;
+    background: var(--surface-high);
+    border-radius: var(--r-xs);
+    aspect-ratio: 1;
+    align-self: center;
+}
+
+.achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.achievement-rarity {
+    font-size: 0.8rem;
+    color: var(--on-surface-var);
+}
+
+.achievement.rare .achievement-name {
+    color: var(--primary);
+}
+
+
+.achievement.rare .achievement-rarity {
+    color: color-mix(in oklab, var(--primary) 65%, transparent)
 }
