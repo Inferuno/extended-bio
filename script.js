@@ -19,17 +19,19 @@ const profileBox = wuwaWidget.querySelector(".profile");
 const linksWidget = document.querySelector("#widget-links");
 const linksBox = linksWidget.querySelector(".links");
 
+const steamWidget = document.querySelector("#widget-steam");
+const achievementsBox = steamWidget.querySelector(".achievements");
+const wishlistBox = steamWidget.querySelector(".wishlist");
+
 const projectsBox = document.querySelector(".grid");
 
 const identityBox = document.querySelector(".identity");
 const identityName = identityBox.querySelector("h1");
 const identityHandle = identityBox.querySelector(".handle");
 const identityBio = identityBox.querySelector(".bio");
-
 const credit = document.querySelector("#credit");
 
-
-// Fixes credit wording if not host project. Removing this line isn't allowed.
+// Fixes credit wording if not host project. Removing this line is not allowed.
 if (location.hostname !== "inferuno.github.io") {
     credit.textContent = "Original project made by Inferuno"
 }
@@ -192,7 +194,6 @@ addEventListener("keydown", (e) => {
 fetch("assets/data/board/wuwa.json")
     .then(r => r.json())
     .then(data => {
-        wuwaWidget.querySelector("h3").textContent = data.title;
         statsBox.textContent = "";
         notesBox.textContent = "";
         profileBox.textContent = "";
@@ -274,12 +275,88 @@ fetch("assets/data/board/links.json")
         });
     });
 
+fetch("assets/data/board/steam.json")
+    .then(r => r.json())
+    .then(data => {
+        wishlistBox.textContent = "";
+        achievementsBox.textContent = "";
+
+        const number = document.createElement("div");
+        number.className = "wishlist-amount";
+        number.textContent = data.wishlist.items;
+
+        const game = data.wishlist.game;
+
+        const title = document.createElement("div");
+        title.className = "wishlist-game-title";
+        title.textContent = game.title;
+
+        const price = document.createElement("span");
+        price.className = "wishlist-game-price";
+        price.textContent = "$" + game.price.toFixed(2);
+
+        const sale = document.createElement("span");
+        sale.className = "wishlist-game-sale";
+        if (game.saleAmount) sale.textContent = "-" + game.saleAmount + "%";
+
+        const image = document.createElement("div");
+        image.className = "wishlist-game-image";
+        if (game.imageUrl) image.style.backgroundImage = `url(${game.imageUrl})`;
+
+        const onSale = document.createElement("div");
+        onSale.className = "wishlist-on-sale";
+        onSale.textContent = data.wishlist.itemsOnSale + " games on sale";
+
+        wishlistBox.appendChild(number);
+        wishlistBox.appendChild(image);
+        wishlistBox.appendChild(title);
+        wishlistBox.appendChild(sale);
+        wishlistBox.appendChild(price);
+        wishlistBox.appendChild(onSale);
+
+        data.achievements.unlocked.forEach((achievement, index) => {
+            if (achievement.rarity > 100) return;
+            if (achievement.rarity <= 0) return;
+
+            const row = document.createElement("div");
+            row.className = "achievement";
+
+            const image = document.createElement("span");
+            image.className = "achievement-img";
+            if (achievement.imageUrl) image.style.backgroundImage = `url(${achievement.imageUrl})`;
+
+            const name = document.createElement("span");
+            name.className = "achievement-name";
+            name.textContent = achievement.name;
+
+            const rarity = document.createElement("span");
+            rarity.className = "achievement-rarity";
+            rarity.textContent = achievement.rarity + "%";
+
+
+            if (index === 0 && achievement.rarity >= 5) {
+                row.classList.add("rare");
+            }
+
+            row.appendChild(image);
+            row.appendChild(name);
+            row.appendChild(rarity);
+            achievementsBox.appendChild(row);
+
+        });
+
+        const days = document.createElement("div");
+        days.className = "achievements-days";
+        days.textContent = "last " + data.achievements.days + " days";
+
+        achievementsBox.appendChild(days);
+    });
+
 fetch("assets/data/projects/projects.json")
     .then(r => r.json())
     .then(data => {
         projectsBox.textContent = "";
         data.forEach(project => {
-
             const card = document.createElement("button");
             card.className = "card";
             card.dataset.label = project.linkLabel;

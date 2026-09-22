@@ -681,3 +681,65 @@ h2 {
     color: var(--on-surface-var);
     opacity: 0.5;
 }
+
+.steam-panels {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+}
+
+.steam-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.wishlist {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.wishlist-game-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--surface-high);
+    border-radius: var(--r-md);
+    background-size: cover;
+    background-position: center;
+}
+
+.wishlist-amount {
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    font-size: 3.125rem;
+    color: var(--primary);
+    transform: translateY(-12px);
+}
+
+.wishlist-amount::after {
+    margin-left: 5px;
+    content: "games wishlisted";
+    letter-spacing: normal;
+    font-size: 0.8rem;
+    color: var(--on-surface-var);
+}
+
+.wishlist-game-title {
+    font-weight: 400;
+    font-size: 1.3rem;
+}
+
+.wishlist-game-sale::after {
+    content: "|";
+    margin-left: 14px;
+    margin-right: 14px;
+    opacity: 0.5;
+    font-weight: 600;
+}
+
+.wishlist-on-sale {
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: var(--on-surface-var);
+}

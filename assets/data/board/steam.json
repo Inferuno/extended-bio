@@ -1,0 +1,38 @@
+{
+    "wishlist": {
+        "items": 23,
+        "itemsOnSale": 3,
+        "game": {
+            "title": "Tiny Glade",
+            "price": 18.00,
+            "saleAmount": 40,
+            "imageUrl": null,
+            "rating": 5
+        }
+    },
+    "achievements": {
+        "days": 30,
+        "unlocked": [
+            {
+                "name": "Rare",
+                "rarity": 3.1,
+                "imageUrl": null
+            },
+            {
+                "name": "lessRare",
+                "rarity": 13.1,
+                "imageUrl": null
+            },
+            {
+                "name": "all",
+                "rarity": 100,
+                "imageUrl": null
+            },
+            {
+                "name": "bugtest",
+                "rarity": 333.1,
+                "imageUrl": null
+            }
+        ]
+    }
+}
