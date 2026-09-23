@@ -106,7 +106,7 @@ fetch("assets/data/board/links.json")
         });
     });
 
-fetch("assets/data/board/steam.json")
+fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
     .then(r => r.json())
     .then(data => {
         wishlistBox.textContent = "";
