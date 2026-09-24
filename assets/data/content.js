@@ -180,12 +180,6 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
             achievementsBox.appendChild(achievementRow);
 
         });
-
-        const days = document.createElement("div");
-        days.className = "achievements-days";
-        days.textContent = "last " + data.achievements.days + " days";
-
-        achievementsBox.appendChild(days);
     });
 
 fetch("assets/data/projects/projects.json")

@@ -164,12 +164,11 @@ html.theming * {
 .detail-value,
 .link,
 .link-handle,
-.link .material-symbols-rounded,
+.link .materia l-symbols-rounded,
 .steam-panel h4,
 .wishlist-amount,
 .wishlist-amount::after,
 .wishlist-on-sale,
-.achievements-days,
 .achievement-rarity,
 .achievement.rare .achievement-name,
 .achievement.rare .achievement-rarity {
@@ -814,8 +813,7 @@ h2 {
     font-weight: 600;
 }
 
-.wishlist-on-sale,
-.achievements-days {
+.wishlist-on-sale {
     margin-top: auto;
     font-size: 0.85rem;
     color: var(--on-surface-var);

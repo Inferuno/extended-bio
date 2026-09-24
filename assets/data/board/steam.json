@@ -11,7 +11,6 @@
         }
     },
     "achievements": {
-        "days": 30,
         "unlocked": [
             {
                 "name": "Rare",
