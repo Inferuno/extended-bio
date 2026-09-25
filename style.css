@@ -778,7 +778,7 @@ h2 {
 .wishlist-game-image {
     display: block;
     width: 100%;
-    aspect-ratio: 16/10;
+    aspect-ratio: 92/43;
     background: var(--surface-high);
     border-radius: var(--r-md);
     background-size: cover;
@@ -813,6 +813,10 @@ h2 {
     font-weight: 600;
 }
 
+.wishlist-game-sale:empty {
+    display: none;
+}
+
 .wishlist-on-sale {
     margin-top: auto;
     font-size: 0.85rem;
@@ -831,6 +835,7 @@ h2 {
     border-radius: var(--r-xs);
     aspect-ratio: 1;
     align-self: center;
+    background-size: cover;
 }
 
 .achievements {
