@@ -59,14 +59,44 @@ export default {
             .slice(0, 6);
 
         const trimmedAchievements = sortedRarestUnlockedAch.map(achievement => ({
-            achievements: {
-                name: achievement.name,
-                rarity: achievement.rarity,
-                imageUrl: achievement.imgUrl
-            }
+            name: achievement.name,
+            rarity: achievement.rarity,
+            imageUrl: achievement.imgUrl
         }));
 
-        return new Response(JSON.stringify(trimmedAchievements), {
+
+        const wishlistResponse = await fetch(`https://api.steampowered.com/IWishlistService/GetWishlist/v1/?steamid=76561199814835994`);
+        const wishlistData = await wishlistResponse.json();
+
+        const wishlistItems = wishlistData.response.items;
+        const featuredWish = wishlistItems
+            .filter(game => game.priority !== 0)
+            .sort((gameA, gameB) => gameA.priority - gameB.priority)[0];
+
+        const featuredWishGameResponse = await fetch(`https://store.steampowered.com/api/appdetails?appids=${featuredWish.appid}&cc=us`);
+        const featuredWishGameData = await featuredWishGameResponse.json();
+
+        const wishlistPath = Object.values(featuredWishGameData)[0].data;
+        let wishThumb = null;
+        if (wishlistPath.header_image !== undefined) wishThumb = wishlistPath.header_image;
+        const steamJson = {
+            wishlist: {
+                items: wishlistItems.length,
+                itemsOnSale: 3,
+                game: {
+                    title: wishlistPath.name,
+                    price: wishlistPath.price_overview.final / 100,
+                    saleAmount: wishlistPath.price_overview.discount_percent,
+                    imageUrl: wishThumb,
+                    rating: 5
+                }
+            },
+            achievements: {
+                unlocked: trimmedAchievements
+            }
+        };
+
+        return new Response(JSON.stringify(steamJson), {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
