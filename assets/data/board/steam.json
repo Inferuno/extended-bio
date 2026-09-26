@@ -10,28 +10,26 @@
             "rating": 5
         }
     },
-    "achievements": {
-        "unlocked": [
-            {
-                "name": "Rare",
-                "rarity": 3.1,
-                "imageUrl": null
-            },
-            {
-                "name": "lessRare",
-                "rarity": 13.1,
-                "imageUrl": null
-            },
-            {
-                "name": "all",
-                "rarity": 100,
-                "imageUrl": null
-            },
-            {
-                "name": "bugtest",
-                "rarity": 333.1,
-                "imageUrl": null
-            }
-        ]
-    }
+    "achievements": [
+        {
+            "name": "Rare",
+            "rarity": 3.1,
+            "imageUrl": null
+        },
+        {
+            "name": "lessRare",
+            "rarity": 13.1,
+            "imageUrl": null
+        },
+        {
+            "name": "all",
+            "rarity": 100,
+            "imageUrl": null
+        },
+        {
+            "name": "bugtest",
+            "rarity": 333.1,
+            "imageUrl": null
+        }
+    ]
 }

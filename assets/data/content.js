@@ -124,11 +124,15 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
 
 
         const priceRow = document.createElement("div");
-        priceRow.className = "wishlist-game-price=-row";
+        priceRow.className = "wishlist-game-price-row";
 
         const price = document.createElement("span");
         price.className = "wishlist-game-price";
-        price.textContent = "$" + game.price.toFixed(2);
+        if (game.price) {
+            price.textContent = "$" + game.price.toFixed(2);
+        } else {
+            price.textContent = "Game Unreleased";
+        }
 
         const sale = document.createElement("span");
         sale.className = "wishlist-game-sale";
@@ -142,15 +146,30 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
         onSale.className = "wishlist-on-sale";
         onSale.textContent = data.wishlist.itemsOnSale + " games on sale";
 
+        const ratingRow = document.createElement("div");
+        ratingRow.className = "wishlist-rating";
+
+        const ratingEmpty = document.createElement("div");
+        ratingEmpty.className = "stars-empty";
+        if (game.rating) ratingEmpty.textContent = "★★★★★";
+
+        const ratingFull = document.createElement("div");
+        ratingFull.className = "stars-full";
+        if (game.rating) ratingFull.textContent = "★★★★★";
+        ratingFull.style.width = game.rating * 20 + "%";
+
         wishlistBox.appendChild(number);
         wishlistBox.appendChild(image);
+        ratingRow.appendChild(ratingEmpty);
+        ratingRow.appendChild(ratingFull);
         wishlistBox.appendChild(title);
         priceRow.appendChild(sale);
         priceRow.appendChild(price);
+        priceRow.appendChild(ratingRow);
         wishlistBox.appendChild(priceRow);
         wishlistBox.appendChild(onSale);
 
-        data.achievements.unlocked.forEach((achievement, index) => {
+        data.achievements.forEach((achievement, index) => {
             if (achievement.rarity > 100) return;
             if (achievement.rarity <= 0) return;
 

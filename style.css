@@ -164,14 +164,16 @@ html.theming * {
 .detail-value,
 .link,
 .link-handle,
-.link .materia l-symbols-rounded,
+.link .material-symbols-rounded,
 .steam-panel h4,
 .wishlist-amount,
 .wishlist-amount::after,
 .wishlist-on-sale,
 .achievement-rarity,
 .achievement.rare .achievement-name,
-.achievement.rare .achievement-rarity {
+.achievement.rare .achievement-rarity,
+.stars-empty,
+.stars-full {
     transition: color var(--t-theme) ease;
 }
 
@@ -785,6 +787,34 @@ h2 {
     background-position: center;
 }
 
+.wishlist-rating {
+    line-height: 1;
+    font-size: 1.4rem;
+    position: relative;
+}
+
+.stars-full {
+    font-size: 1.41rem;
+    top: 0;
+    left: 0;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--primary);
+}
+
+.stars-empty {
+    color: var(--on-surface-var);
+    opacity: 0.35;
+}
+
+.wishlist-game-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .wishlist-amount {
     line-height: 1.2;
     letter-spacing: -0.04em;
@@ -807,10 +837,13 @@ h2 {
 
 .wishlist-game-sale::after {
     content: "|";
-    margin-left: 14px;
-    margin-right: 14px;
+    margin-left: 7px;
     opacity: 0.5;
     font-weight: 600;
+}
+
+.wishlist-game-price {
+    margin-left: 0;
 }
 
 .wishlist-game-sale:empty {

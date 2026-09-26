@@ -76,24 +76,42 @@ export default {
         const featuredWishGameResponse = await fetch(`https://store.steampowered.com/api/appdetails?appids=${featuredWish.appid}&cc=us`);
         const featuredWishGameData = await featuredWishGameResponse.json();
 
+        const wishListIds = wishlistItems.map(game => game.appid).join(",");
+        const wishListCostResponse = await fetch(`https://store.steampowered.com/api/appdetails?appids=${wishListIds}&filters=price_overview&cc=us`);
+        const wishListCostData = await wishListCostResponse.json();
+
+        const wishListGamesOnSale = Object.values(wishListCostData)
+            .filter(game => game.data.price_overview !== undefined)
+            .filter(game => game.data.price_overview.discount_percent > 0);
+
+        const wishListGameRatingResponse = await fetch(`https://store.steampowered.com/appreviews/${featuredWish.appid}?json=1&language=all&num_per_page=0`);
+        const wishListGameRatingData = await wishListGameRatingResponse.json();
+
+        let rating = null;
+        if (wishListGameRatingData.query_summary.total_reviews > 0) {
+            const ratingFull = wishListGameRatingData.query_summary.total_positive / wishListGameRatingData.query_summary.total_reviews;
+            rating = Math.round(ratingFull * 100) / 20;
+        }
+
+
         const wishlistPath = Object.values(featuredWishGameData)[0].data;
+
         let wishThumb = null;
         if (wishlistPath.header_image !== undefined) wishThumb = wishlistPath.header_image;
+
         const steamJson = {
             wishlist: {
                 items: wishlistItems.length,
-                itemsOnSale: 3,
+                itemsOnSale: wishListGamesOnSale.length,
                 game: {
                     title: wishlistPath.name,
                     price: wishlistPath.price_overview.final / 100,
                     saleAmount: wishlistPath.price_overview.discount_percent,
                     imageUrl: wishThumb,
-                    rating: 5
+                    rating: rating
                 }
             },
-            achievements: {
-                unlocked: trimmedAchievements
-            }
+            achievements: trimmedAchievements
         };
 
         return new Response(JSON.stringify(steamJson), {
