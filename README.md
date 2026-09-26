@@ -1,7 +1,7 @@
 # Extended Bio
 This project is an extended bio that I can put on any sort of internet "about me" section, for example: a YouTube bio or a Discord bio to contain more information than their small character limits can.
 
-**Live:** https://inferuno.github.io/portfolio/
+**Live:** [Github Pages](https://inferuno.github.io/extended-bio/)
 
 ## Why it exists
 I wanted to have a more customized and longer bio, and expanded into what you are viewing.
