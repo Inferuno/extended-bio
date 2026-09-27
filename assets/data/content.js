@@ -297,6 +297,40 @@ fetch("assets/data/board/github.json")
 
             commitBox.appendChild(commitRow);
         });
+
+        const languageBar = document.createElement("div");
+        languageBar.className = "language-bar";
+
+        Object.keys(data.summary.language).forEach(langName => {
+            const lang = data.summary.language[langName];
+
+            const langSegment = document.createElement("span");
+            langSegment.className = "language-segment";
+            langSegment.style.flexGrow = lang.percentage;
+            langSegment.style.background = lang.color;
+
+            languageBar.appendChild(langSegment);
+        });
+        const languages = Object.keys(data.summary.language)
+            .map(langName => langName.toUpperCase() + " " + data.summary.language[langName].percentage + "%")
+            .join(" | ");
+
+        const summaryRow = document.createElement("div");
+        summaryRow.className = "summary-row";
+
+        const languageLabel = document.createElement("span");
+        languageLabel.className = "language-labels";
+        languageLabel.textContent = languages;
+
+        const commitsThisMonth = document.createElement("span");
+        commitsThisMonth.className = "commits-month";
+        commitsThisMonth.textContent = `${data.summary.commitsThisMonth} commits this month`;
+
+        summaryBox.appendChild(languageBar);
+
+        summaryRow.appendChild(languageLabel);
+        summaryRow.appendChild(commitsThisMonth);
+        summaryBox.appendChild(summaryRow);
     });
 
 fetch("assets/data/projects/projects.json")

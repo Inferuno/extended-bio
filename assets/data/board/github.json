@@ -33,9 +33,18 @@
     "summary": {
         "commitsThisMonth": 23,
         "language": {
-            "js": 0.49,
-            "css": 0.42,
-            "html": 0.09
+            "js": {
+                "percentage": 49,
+                "color": "#f1e05a"
+            },
+            "css": {
+                "percentage": 42,
+                "color": "#663399"
+            },
+            "html": {
+                "percentage": 9,
+                "color": "#e34c26"
+            }
         }
     }
 }

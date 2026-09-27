@@ -179,7 +179,13 @@ html.theming * {
 .achievement.rare .achievement-name,
 .achievement.rare .achievement-rarity,
 .stars-empty,
-.stars-full {
+.stars-full,
+.commit-name,
+.commit-age,
+.github-fetch-amount,
+.github-fetched-last,
+.language-labels,
+.commits-month {
     transition: color var(--t-theme) ease;
 }
 
@@ -898,6 +904,18 @@ h2 {
     color: color-mix(in oklab, var(--primary) 65%, transparent)
 }
 
+#widget-github {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.summary-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .commit-changes {
     display: flex;
     gap: 5px;
@@ -918,7 +936,8 @@ h2 {
 }
 
 .commit-line,
-.github-fetch-line {
+.github-fetch-line,
+.summary-row {
     display: flex;
     gap: 7px;
     align-items: baseline;
@@ -959,4 +978,21 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.language-bar {
+    display: flex;
+    height: 10px;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+}
+
+.commits-month {
+    margin-left: auto;
+}
+
+.commits-month,
+.language-labels {
+    color: var(--on-surface-var);
+    font-size: 0.9rem;
 }
