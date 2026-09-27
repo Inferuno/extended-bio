@@ -1,0 +1,41 @@
+{
+    "fetchedAt": "2026-09-27T14:30:00Z",
+    "commits": [
+        {
+            "repo": "extended-bio",
+            "commitTitle": "Fixing live link to proper repo name",
+            "linesAdded": 2,
+            "linesRemoved": 2,
+            "commitTime": "2026-09-26T12:44:18Z"
+        },
+        {
+            "repo": "extended-bio",
+            "commitTitle": "FINISHED STEAM WIDGET!",
+            "linesAdded": 105,
+            "linesRemoved": 40,
+            "commitTime": "2026-09-26T12:38:43Z"
+        },
+        {
+            "repo": "extended-bio",
+            "commitTitle": "Minor css changes on Steam widget.",
+            "linesAdded": 6,
+            "linesRemoved": 1,
+            "commitTime": "2026-09-25T23:17:25Z"
+        },
+        {
+            "repo": "extended-bio",
+            "commitTitle": "Added most of wishlist to the worker",
+            "linesAdded": 41,
+            "linesRemoved": 5,
+            "commitTime": "2026-09-25T23:07:41Z"
+        }
+    ],
+    "summary": {
+        "commitsThisMonth": 23,
+        "language": {
+            "js": 0.49,
+            "css": 0.42,
+            "html": 0.09
+        }
+    }
+}

@@ -20,6 +20,33 @@ const identityName = identityBox.querySelector("h1");
 const identityHandle = identityBox.querySelector(".handle");
 const identityBio = identityBox.querySelector(".bio");
 
+const githubWidget = document.querySelector("#widget-github");
+const commitBox = githubWidget.querySelector(".commit-panel");
+const summaryBox = githubWidget.querySelector(".summary-panel");
+
+
+function howLongAgo(exactDate) {
+    const date = new Date(exactDate);
+    const msAgo = Date.now() - date;
+
+    const timeUnits = [
+        { unit: "s", multi: 1000 },
+        { unit: "m", multi: 1000 * 60 },
+        { unit: "h", multi: 1000 * 60 * 60 },
+        { unit: "d", multi: 1000 * 60 * 60 * 24 },
+        { unit: "w", multi: 1000 * 60 * 60 * 24 * 7 },
+        { unit: "mo", multi: 1000 * 60 * 60 * 24 * 30 },
+        { unit: "y", multi: 1000 * 60 * 60 * 24 * 365 }
+    ];
+
+    for (let i = timeUnits.length - 1; i >= 0; i--) {
+        if (msAgo >= timeUnits[i].multi) {
+            return `${Math.floor(msAgo / timeUnits[i].multi)}${timeUnits[i].unit}`;
+        }
+    }
+
+    return "0s";
+}
 // -------------- Content Fetches -------------- //
 
 fetch("assets/data/board/wuwa.json")
@@ -198,6 +225,77 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
             achievementRow.appendChild(rarity);
             achievementsBox.appendChild(achievementRow);
 
+        });
+    });
+
+fetch("assets/data/board/github.json")
+    .then(r => r.json())
+    .then(data => {
+        summaryBox.textContent = "";
+        commitBox.textContent = "";
+
+        const fetchLine = document.createElement("div");
+        fetchLine.className = "github-fetch-line";
+
+        const fetchedNum = document.createElement("span");
+        fetchedNum.className = "github-fetch-amount";
+        fetchedNum.textContent = `Last ${data.commits.length} commits`;
+
+
+        const lastFetched = document.createElement("span");
+        lastFetched.className = "github-fetched-last";
+        lastFetched.textContent = howLongAgo(data.fetchedAt) + " ago";
+
+        fetchLine.appendChild(fetchedNum);
+        fetchLine.appendChild(lastFetched);
+        commitBox.append(fetchLine);
+
+        const lineChanges = data.commits.map(commit => commit.linesAdded + commit.linesRemoved);
+        const biggestCommit = Math.max(...lineChanges);
+
+
+        data.commits.forEach(commit => {
+            const commitRow = document.createElement("div");
+            commitRow.className = "commit";
+
+            const commitDesc = document.createElement("div");
+            commitDesc.className = "commit-line";
+
+            const repo = document.createElement("span");
+            repo.className = "commit-name";
+            repo.textContent = commit.repo;
+
+            const title = document.createElement("span");
+            title.className = "commit-title";
+            title.textContent = commit.commitTitle;
+
+            const age = document.createElement("span");
+            age.className = "commit-age";
+            age.textContent = howLongAgo(commit.commitTime);
+
+            const changeRow = document.createElement("div");
+            changeRow.className = "commit-changes";
+
+            const added = document.createElement("span");
+            const percentAdded = commit.linesAdded / biggestCommit * 100;
+            added.className = "commit-added";
+            added.style.width = percentAdded + "%";
+
+            const removed = document.createElement("span");
+            const percentRemoved = commit.linesRemoved / biggestCommit * 100;
+            removed.className = "commit-removed";
+            removed.style.width = percentRemoved + "%";
+
+            commitDesc.appendChild(repo);
+            commitDesc.appendChild(title);
+            commitDesc.appendChild(age);
+            commitRow.appendChild(commitDesc);
+
+            changeRow.appendChild(added);
+            changeRow.appendChild(removed);
+            commitRow.appendChild(changeRow);
+
+            commitBox.appendChild(commitRow);
         });
     });
 

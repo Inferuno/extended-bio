@@ -65,6 +65,9 @@ html[data-mode="dark"] {
     --bg-gradient-1: oklch(0.30 0.10 var(--h));
     --bg-gradient-2: oklch(0.22 0.07 calc(var(--h) + 55));
     --bg-gradient-3: oklch(0.13 0.03 var(--h));
+
+    --added: oklch(0.74 0.14 150);
+    --removed: oklch(0.66 0.15 25);
 }
 
 html[data-mode="light"] {
@@ -85,6 +88,9 @@ html[data-mode="light"] {
     --bg-gradient-1: oklch(0.90 0.09 var(--h));
     --bg-gradient-2: oklch(0.93 0.07 calc(var(--h) + 55));
     --bg-gradient-3: oklch(0.97 0.03 var(--h));
+
+    --added: oklch(0.58 0.14 150);
+    --removed: oklch(0.56 0.17 25);
 }
 
 :root {
@@ -890,4 +896,67 @@ h2 {
 
 .achievement.rare .achievement-rarity {
     color: color-mix(in oklab, var(--primary) 65%, transparent)
+}
+
+.commit-changes {
+    display: flex;
+    gap: 5px;
+}
+
+.commit-added,
+.commit-removed {
+    height: 6px;
+    border-radius: var(--r-xl);
+}
+
+.commit-added {
+    background-color: var(--added);
+}
+
+.commit-removed {
+    background-color: var(--removed);
+}
+
+.commit-line,
+.github-fetch-line {
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+}
+
+.commit-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.github-fetch-amount,
+.github-fetched-last {
+    font-size: 0.8rem;
+    color: var(--on-surface-var);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+    margin-bottom: 2px;
+}
+
+.commit-age,
+.github-fetched-last {
+    margin-left: auto;
+}
+
+.commit-name {
+    color: var(--primary);
+}
+
+.commit-age {
+    color: var(--on-surface-var);
+    font-size: 0.9rem;
+}
+
+.commit-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
