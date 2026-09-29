@@ -133,7 +133,7 @@ fetch("assets/data/board/links.json")
         });
     });
 
-fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
+fetch("https://blue-water-5c1b.infernokingyt.workers.dev/steam")
     .then(r => r.json())
     .then(data => {
         wishlistBox.textContent = "";
@@ -228,7 +228,7 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/")
         });
     });
 
-fetch("assets/data/board/github.json")
+fetch("https://blue-water-5c1b.infernokingyt.workers.dev/github")
     .then(r => r.json())
     .then(data => {
         summaryBox.textContent = "";
