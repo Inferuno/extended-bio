@@ -1,13 +1,19 @@
 # Extended Bio
 This project is an extended bio that I can put on any sort of internet "about me" section, for example: a YouTube bio or a Discord bio to contain more information than their small character limits can.
 
-**Live:** [Github Pages](https://inferuno.github.io/extended-bio/)
+**Live:** [GitHub Pages](https://inferuno.github.io/extended-bio/)
+
+**STATUS**: Complete (v1.0)!!! I'll keep the content up to date as things change (like new projects, bio updates, and whatever I want (internet bio for the win!)) Known bugs are tracked in [Issues](https://github.com/Inferuno/extended-bio/issues).
 
 ## Why it exists
 I wanted to have a more customized and longer bio, and expanded into what you are viewing.
 
 ## Stack
-Plain HTML, CSS, and JS. Commonly changeable data are in JSON files, in [assets/data](assets/data). Hosted with GitHub Pages
+Site is just HTML, CSS, and JS. Commonly changeable data are in JSON files, in [assets/data](assets/data). Hosted with GitHub Pages.
+The live data is done with Cloudflare, in the [worker/](worker/). Has two routes:
+- `/steam` for the Steam widget. Uses the Steam Web API and Steam Store.
+- `/github` for the GitHub widget. Uses GitHub's REST API (commits and line counts) plus GraphQL (languages and monthly count). It is cached in Workers KV and refreshed by an hourly Cron Trigger (when it's 12 hours old). 
+API keys are stored as Cloudflare secrets.
 
 ## What's interesting in this project
 Every color in the project derives from one hue value (`--h`),  `@property` registers it as a number so that the browser can animate it. In [script.js](script.js) it has a function (`track()`) which will change the color depending on what section you are viewing.
