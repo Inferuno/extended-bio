@@ -8,7 +8,10 @@ export default {
 
         let json = null;
         if (path === "/github") {
-            json = await getGitHubData(env);
+            if (JSON.parse(await env.GITHUB_CACHE.get("github")) === null) {
+                await env.GITHUB_CACHE.put("github", JSON.stringify(await getGitHubData(env)));
+            }
+            json = JSON.parse(await env.GITHUB_CACHE.get("github"));
         } else if (path === "/steam") {
             json = await getSteamData(env);
         }
@@ -19,5 +22,15 @@ export default {
                 "Access-Control-Allow-Origin": "*"
             },
         });
+    },
+    async scheduled(controller, env, ctx) {
+        const oldData = JSON.parse(await env.GITHUB_CACHE.get("github"));
+        const twelveHours = 12 * 60 * 60 * 1000;
+
+        if (oldData !== null && Date.now() - new Date(oldData.fetchedAt) < twelveHours) {
+            return;
+        }
+        const gitHubData = await getGitHubData(env);
+        await env.GITHUB_CACHE.put("github", JSON.stringify(gitHubData));
     },
 }; 

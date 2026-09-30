@@ -93,7 +93,6 @@ query {
 
     const language = {}
     topNames.forEach(name => {
-        console.log(name)
         language[name] = {
             percentage: Math.round(languageTotals[name].size / totalSize * 100),
             color: languageTotals[name].color

@@ -1,3 +1,10 @@
 name = "blue-water-5c1b"
 main = "worker.js"
 compatibility_date = "2026-09-25"
+
+[[kv_namespaces]]
+binding = "GITHUB_CACHE"
+id = "863f6f19dfe14cda8c2b2fb35b479c15"
+
+   [triggers]
+   crons = ["0 * * * *"]
