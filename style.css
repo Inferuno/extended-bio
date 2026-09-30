@@ -967,6 +967,8 @@ h2 {
 
 .commit-name {
     color: var(--primary);
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .commit-age {
@@ -994,5 +996,10 @@ h2 {
 .commits-month,
 .language-labels {
     color: var(--on-surface-var);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.summary-row {
+    flex-wrap: wrap;
 }

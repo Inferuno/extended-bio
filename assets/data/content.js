@@ -311,8 +311,13 @@ fetch("https://blue-water-5c1b.infernokingyt.workers.dev/github")
 
             languageBar.appendChild(langSegment);
         });
+
+        const shortNames = { JavaScript: "JS", TypeScript: "TS" };
         const languages = Object.keys(data.summary.language)
-            .map(langName => langName.toUpperCase() + " " + data.summary.language[langName].percentage + "%")
+            .map(langName => {
+                const label = shortNames[langName] || langName;
+                return label.toUpperCase() + " " + data.summary.language[langName].percentage + "%";
+            })
             .join(" | ");
 
         const summaryRow = document.createElement("div");

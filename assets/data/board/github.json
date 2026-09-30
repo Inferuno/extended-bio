@@ -44,6 +44,10 @@
             "html": {
                 "percentage": 9,
                 "color": "#e34c26"
+            },
+            "Other": {
+                "percentage": 5,
+                "color": "#8b949e"
             }
         }
     }

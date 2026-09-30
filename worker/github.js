@@ -29,25 +29,96 @@ export async function getGitHubData(env) {
     }
 
     const perCommitChanged = await Promise.all(commits.map(commit => getCommitStats(commit)))
-    return {
+
+    const now = new Date();
+    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
+    const summaryQuery = `
+query {
+  user(login: "Inferuno") {
+    contributionsCollection(from: "${monthStart}") {
+      totalCommitContributions
+    }
+    repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
+      nodes {
+        name
+        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+          edges {
+            size
+            node { name color }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+    const summaryResponse = await fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+            "User-Agent": "extended-bio",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ query: summaryQuery })
+    });
+
+    const summaryData = await summaryResponse.json();
+
+    const allLanguages = summaryData.data.user.repositories.nodes
+        .map(eachRepo => eachRepo.languages.edges)
+        .flat();
+
+    const languageTotals = {};
+
+    allLanguages.forEach(entry => {
+        const name = entry.node.name;
+
+        if (languageTotals[name] === undefined) {
+            languageTotals[name] = { size: 0, color: entry.node.color };
+        }
+
+        languageTotals[name].size += entry.size;
+    });
+
+    let totalSize = 0;
+
+    Object.values(languageTotals).forEach(lang => totalSize += lang.size);
+
+    const sortedNames = Object.keys(languageTotals)
+        .sort((nameA, nameB) => languageTotals[nameB].size - languageTotals[nameA].size);
+
+    const topNames = sortedNames.slice(0, 3);
+    const otherNames = sortedNames.slice(3);
+
+    const language = {}
+    topNames.forEach(name => {
+        console.log(name)
+        language[name] = {
+            percentage: Math.round(languageTotals[name].size / totalSize * 100),
+            color: languageTotals[name].color
+        }
+    })
+
+    if (otherNames.length > 0) {
+        let otherSize = 0;
+        otherNames.forEach(name => otherSize += languageTotals[name].size)
+
+        language.Other = {
+            percentage: Math.round(otherSize / totalSize * 100),
+            color: "#8b949e"
+        }
+    }
+
+
+    const finishedJson = {
         fetchedAt: new Date().toISOString(),
         "commits": [...perCommitChanged],
         "summary": {
-            "commitsThisMonth": 23,
-            "language": {
-                "js": {
-                    "percentage": 49,
-                    "color": "#f1e05a"
-                },
-                "css": {
-                    "percentage": 42,
-                    "color": "#663399"
-                },
-                "html": {
-                    "percentage": 9,
-                    "color": "#e34c26"
-                }
-            }
+            "commitsThisMonth": summaryData.data.user.contributionsCollection.totalCommitContributions,
+            "language": { ...language }
         }
     }
+
+    return finishedJson
 }
